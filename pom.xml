@@ -57,6 +57,7 @@
                             <value>beta</value>
                         </property>
                     </appSettings>
+                    <javaVersion>1.8</javaVersion>
                 </configuration>
             </plugin>
             <plugin>
