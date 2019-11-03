@@ -48,7 +48,15 @@
                 <artifactId>azure-webapp-maven-plugin</artifactId>
                 <version>1.1.0</version>
                 <configuration>
-                    <!-- ... -->
+                    <resourceGroup>spring-boot-mongodb-group</resourceGroup>
+                    <appName>asep-springboot-mongodb-app</appName>
+                    <region>eastsussex</region>
+                    <appSettings>
+                        <property>
+                            <name>FUNCTIONS_EXTENSION_VERSION</name>
+                            <value>beta</value>
+                        </property>
+                    </appSettings>
                 </configuration>
             </plugin>
             <plugin>
