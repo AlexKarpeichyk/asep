@@ -2,14 +2,15 @@ package com.asep.spring.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @SuppressWarnings("serial")
 @Document(collection = "user")
 public class User extends BaseEntity {
 
     private String country;
     private String city;
-    private String latitude;
-    private String longitude;
+    private List<Location> locations;
     private String name;
     private Device device;
 
@@ -17,11 +18,10 @@ public class User extends BaseEntity {
 
     }
 
-    public User(String country, String city, String latitude, String longitude, String name, Device device) {
+    public User(String country, String city, List<Location> locations, String name, Device device) {
         this.country = country;
         this.city = city;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.locations = locations;
         this.name = name;
         this.device = device;
     }
@@ -42,20 +42,12 @@ public class User extends BaseEntity {
         this.city = city;
     }
 
-    public String getLatitude() {
-        return latitude;
+    public List<Location> getLocations() {
+        return locations;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
     }
 
     public String getName() {
