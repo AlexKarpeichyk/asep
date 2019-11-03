@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUserById(@PathVariable("id") String id) {
-        System.out.println("Fetching User with id " + id);
+        LOG.info("Fetching User with id " + id);
         Optional<User> user = userService.findById(id);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
