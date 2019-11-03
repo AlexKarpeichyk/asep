@@ -10,7 +10,7 @@ public class User extends BaseEntity {
 
     private String country;
     private String city;
-    private List<Location> locations;
+    private List<Location> location;
     private String name;
     private Device device;
 
@@ -21,7 +21,7 @@ public class User extends BaseEntity {
     public User(String country, String city, List<Location> locations, String name, Device device) {
         this.country = country;
         this.city = city;
-        this.locations = locations;
+        this.location = locations;
         this.name = name;
         this.device = device;
     }
@@ -42,12 +42,12 @@ public class User extends BaseEntity {
         this.city = city;
     }
 
-    public List<Location> getLocations() {
-        return locations;
+    public List<Location> getLocation() {
+        return location;
     }
 
-    public void setLocations(List<Location> locations) {
-        this.locations = locations;
+    public void setLocation(List<Location> locations) {
+        this.location = locations;
     }
 
     public String getName() {

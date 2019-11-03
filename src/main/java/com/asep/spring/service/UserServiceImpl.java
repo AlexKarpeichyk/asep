@@ -40,7 +40,11 @@ public class UserServiceImpl implements UserService {
 
     public User updatePartially(User user, String id) {
         Optional<User> usr = findById(id);
+        usr.get().setCity(user.getCity());
+        usr.get().setName(user.getName());
+        usr.get().setLocation(user.getLocation());
         usr.get().setCountry(user.getCountry());
+        usr.get().setDevice(user.getDevice());
         return userRepository.save(usr.get());
     }
 
