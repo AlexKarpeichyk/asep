@@ -1,5 +1,6 @@
 package com.asep.spring.service;
 
+import com.asep.spring.entity.AuthUser;
 import com.asep.spring.entity.User;
 
 import java.util.List;
@@ -14,7 +15,9 @@ public interface UserService {
 
     User update(User user, String l);
 
-    //   public void deleteUserById(String userId);
+    public void deleteUserById(String userId);
 
     User updatePartially(User user, String id);
+
+    User getUserByEmail(AuthUser authUser);
 }

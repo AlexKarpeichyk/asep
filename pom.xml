@@ -43,28 +43,34 @@
         <groupId>com.microsoft.azure</groupId>  
         <artifactId>azure-webapp-maven-plugin</artifactId>  
         <version>1.6.0</version>  
-        <configuration>
-          <schemaVersion>V2</schemaVersion>
-          <resourceGroup>Spring-Boot-Mongo-1572833821170-rg</resourceGroup>
-          <appName>Spring-Boot-Mongo-1572833821170</appName>
-          <region>westeurope</region>
+        <configuration> 
+          <schemaVersion>V2</schemaVersion>  
+          <resourceGroup>Spring-Boot-Mongo-1572833821170-rg</resourceGroup>  
+          <appName>Spring-Boot-Mongo-1572833821170</appName>  
+          <region>westeurope</region>  
           <pricingTier>P1V2</pricingTier>
-          <runtime>
-            <os>linux</os>
-            <javaVersion>jre8</javaVersion>
-            <webContainer>TOMCAT 9.0</webContainer>
-          </runtime>
-          <deployment>
-            <resources>
-              <resource>
-                <directory>${project.basedir}/target</directory>
-                <includes>
-                  <include>*.war</include>
-                </includes>
-              </resource>
-            </resources>
-          </deployment>
-        </configuration>
+         <!-- <appSettings>
+            <property>
+              <name>JAVA_OPTS</name>
+              <value>-Dserver.port=80</value>
+            </property>
+          </appSettings>-->
+          <runtime> 
+            <os>linux</os>  
+            <javaVersion>jre8</javaVersion>  
+            <webContainer>jre8</webContainer> 
+          </runtime>  
+          <deployment> 
+            <resources> 
+              <resource> 
+                <directory>${project.basedir}/target</directory>  
+                <includes> 
+                  <include>*.war</include> 
+                </includes> 
+              </resource> 
+            </resources> 
+          </deployment> 
+        </configuration> 
       </plugin>  
       <plugin> 
         <groupId>org.springframework.boot</groupId>  

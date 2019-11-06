@@ -10,11 +10,11 @@ public class Device {
 
     private String deviceId;
 
-    private String phoneNumber;
+    //private String phoneNumber;
 
     private String phoneType;
 
-    private String countryCode;
+    //private String countryCode;
 
 
 }

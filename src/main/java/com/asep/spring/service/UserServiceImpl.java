@@ -1,5 +1,6 @@
 package com.asep.spring.service;
 
+import com.asep.spring.entity.AuthUser;
 import com.asep.spring.entity.User;
 import com.asep.spring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,23 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-/*
-    public void deleteUserById(String id) {
+    public User getUserByEmail(AuthUser authUser) {
+        for(User u: userRepository.findAll()) {
+            if (u.getPassword() != null && u.getEmail() != null) {
+                if (u.getPassword().equalsIgnoreCase(authUser.getPassword()) && u.getEmail().equalsIgnoreCase(authUser.getEmail())) {
+                    return u;
+                }
+            }
+        }
 
-        userRepository.delete(id);
+        return null;
     }
-*/
+
+
+    public void deleteUserById(String id) {
+        User user = userRepository.findById(id).get();
+        userRepository.delete(user);
+    }
 
     public User updatePartially(User user, String id) {
         Optional<User> usr = findById(id);

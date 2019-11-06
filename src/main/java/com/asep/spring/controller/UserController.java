@@ -1,5 +1,6 @@
 package com.asep.spring.controller;
 
+import com.asep.spring.entity.AuthUser;
 import com.asep.spring.entity.User;
 import com.asep.spring.service.UserService;
 import org.slf4j.Logger;
@@ -20,6 +21,19 @@ public class UserController {
     UserService userService;
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
+
+    /**
+    @RequestMapping(value = {"/", "/user"})
+    public String message() {
+        return "Hello";
+    }
+
+    @GetMapping(value = "/message", headers = "Accept=application/json")
+    public String message() {
+        LOG.info("Hello! ");
+        return "Hello harry";
+    }
+    **/
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUserById(@PathVariable("id") String id) {
@@ -42,7 +56,15 @@ public class UserController {
     public List<User> getAllUser() {
         List<User> tasks = userService.getUser();
         return tasks;
+    }
 
+    @GetMapping(value = "/getByEmail", headers = "Accept=application/json")
+    public ResponseEntity<User> getUserByEmail(@RequestBody AuthUser aUser) {
+        User user = userService.getUserByEmail(aUser);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping(value = "/update/{id}", headers = "Accept=application/json")
@@ -56,7 +78,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-/*
+
     @DeleteMapping(value = "/{id}", headers = "Accept=application/json")
     public ResponseEntity<User> deleteUser(@PathVariable("id") String id) {
         Optional<User> user = userService.findById(id);
@@ -66,7 +88,7 @@ public class UserController {
         userService.deleteUserById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-*/
+
 
     @PatchMapping(value = "/{id}", headers = "Accept=application/json")
     public ResponseEntity<User> updateUserPartially(@PathVariable("id") String id, @RequestBody User currentUser) {
