@@ -38,7 +38,8 @@
     </dependency> 
   </dependencies>  
   <build> 
-    <plugins> 
+    <plugins>
+      <!--
       <plugin> 
         <groupId>com.microsoft.azure</groupId>  
         <artifactId>azure-webapp-maven-plugin</artifactId>  
@@ -49,12 +50,12 @@
           <appName>Spring-Boot-Mongo-1572833821170</appName>  
           <region>westeurope</region>  
           <pricingTier>P1V2</pricingTier>
-         <!-- <appSettings>
+          <appSettings>
             <property>
               <name>JAVA_OPTS</name>
               <value>-Dserver.port=80</value>
             </property>
-          </appSettings>-->
+          </appSettings>
           <runtime> 
             <os>linux</os>  
             <javaVersion>jre8</javaVersion>  
@@ -71,7 +72,8 @@
             </resources> 
           </deployment> 
         </configuration> 
-      </plugin>  
+      </plugin>
+      -->
       <plugin> 
         <groupId>org.springframework.boot</groupId>  
         <artifactId>spring-boot-maven-plugin</artifactId> 

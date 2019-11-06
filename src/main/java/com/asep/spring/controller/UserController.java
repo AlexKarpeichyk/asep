@@ -22,18 +22,10 @@ public class UserController {
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    /**
-    @RequestMapping(value = {"/", "/user"})
+    @GetMapping(value = "/message")
     public String message() {
         return "Hello";
     }
-
-    @GetMapping(value = "/message", headers = "Accept=application/json")
-    public String message() {
-        LOG.info("Hello! ");
-        return "Hello harry";
-    }
-    **/
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUserById(@PathVariable("id") String id) {
@@ -58,7 +50,7 @@ public class UserController {
         return tasks;
     }
 
-    @GetMapping(value = "/getByEmail", headers = "Accept=application/json")
+    @PostMapping(value = "/getByEmail", headers = "Accept=application/json")
     public ResponseEntity<User> getUserByEmail(@RequestBody AuthUser aUser) {
         User user = userService.getUserByEmail(aUser);
         if (user == null) {

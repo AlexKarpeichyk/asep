@@ -7,3 +7,4 @@ com/asep/spring/entity/Device.class
 com/asep/spring/repository/UserRepository.class
 com/asep/spring/entity/BaseEntity.class
 com/asep/spring/entity/User.class
+com/asep/spring/entity/AuthUser.class

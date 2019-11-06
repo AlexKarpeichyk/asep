@@ -7,3 +7,4 @@
 /home/xander/Projects/spring-boot-mongodb/src/main/java/com/asep/spring/entity/Location.java
 /home/xander/Projects/spring-boot-mongodb/src/main/java/com/asep/spring/entity/BaseEntity.java
 /home/xander/Projects/spring-boot-mongodb/src/main/java/com/asep/spring/entity/Device.java
+/home/xander/Projects/spring-boot-mongodb/src/main/java/com/asep/spring/entity/AuthUser.java
