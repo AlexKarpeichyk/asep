@@ -16,8 +16,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
-    public void createUser(User user) {
+    public boolean createUser(User user) {
+        for(User u: userRepository.findAll()) {
+            if(u.getName().equalsIgnoreCase(user.getName())) {
+                return false;
+            }
+        }
+
         userRepository.save(user);
+        return true;
     }
 
     public List<User> getUser() {
@@ -34,8 +41,8 @@ public class UserServiceImpl implements UserService {
 
     public User getUserByEmail(AuthUser authUser) {
         for(User u: userRepository.findAll()) {
-            if (u.getPassword() != null && u.getEmail() != null) {
-                if (u.getPassword().equalsIgnoreCase(authUser.getPassword()) && u.getEmail().equalsIgnoreCase(authUser.getEmail())) {
+            if (u.getPassword() != null && u.getName() != null) {
+                if (u.getPassword().equalsIgnoreCase(authUser.getPassword()) && u.getName().equalsIgnoreCase(authUser.getName())) {
                     return u;
                 }
             }

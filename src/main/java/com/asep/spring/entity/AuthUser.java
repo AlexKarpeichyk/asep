@@ -1,26 +1,24 @@
 package com.asep.spring.entity;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 public class AuthUser {
-    private String email;
+    private String name;
     private String password;
 
     public AuthUser() {
 
     }
 
-    public AuthUser(String email, String password) {
-        this.email = email;
+    public AuthUser(String name, String password) {
+        this.name = name;
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getName() {
+        return name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {

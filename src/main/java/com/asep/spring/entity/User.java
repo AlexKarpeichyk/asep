@@ -13,7 +13,6 @@ public class User extends BaseEntity {
     private List<Location> location;
     private String name;
     private Device device;
-    private String email;
     private String password;
 
     public User() {
@@ -68,10 +67,6 @@ public class User extends BaseEntity {
     public void setDevice(Device device) {
         this.device = device;
     }
-
-    public String getEmail() { return email; }
-
-    public void setEmail(String email) { this.email = email; }
 
     public String getPassword() { return password; }
 

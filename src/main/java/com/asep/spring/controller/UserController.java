@@ -22,11 +22,6 @@ public class UserController {
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    @GetMapping(value = "/message")
-    public String message() {
-        return "Hello";
-    }
-
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUserById(@PathVariable("id") String id) {
         LOG.info("Fetching User with id " + id);
@@ -38,10 +33,14 @@ public class UserController {
     }
 
     @PostMapping(value = "/create", headers = "Accept=application/json")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity createUser(@RequestBody User user) {
         LOG.info("Creating User " + user.getName());
-        userService.createUser(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        boolean success = userService.createUser(user);
+        if (success) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists");
+        }
     }
 
     @GetMapping(value = "/get", headers = "Accept=application/json")
