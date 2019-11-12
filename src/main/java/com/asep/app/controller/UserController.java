@@ -3,6 +3,7 @@ package com.asep.app.controller;
 import com.asep.app.entity.AuthUser;
 import com.asep.app.entity.User;
 import com.asep.app.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = {"/", "/user"})
+@CrossOrigin(origins = "*")
 public class UserController {
     @Autowired
     UserService userService;
@@ -33,7 +35,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/create", headers = "Accept=application/json")
-    public ResponseEntity createUser(@RequestBody User user) {
+    public ResponseEntity createUser(@RequestBody String jsonUser) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            User user = mapper.readValue(jsonUser, User.class);
             LOG.info("Creating User " + user.getName());
             boolean created = userService.createUser(user);
             if(created) {
@@ -41,6 +46,10 @@ public class UserController {
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists.");
             }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to parse body");
+        }
+
     }
 
     @GetMapping(value = "/get", headers = "Accept=application/json")
@@ -50,23 +59,37 @@ public class UserController {
     }
 
     @PostMapping(value = "/getByEmail", headers = "Accept=application/json")
-    public ResponseEntity getUserByEmail(@RequestBody AuthUser aUser) {
-        User user = userService.getUserByEmail(aUser);
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User doesn't exists");
+    public ResponseEntity getUserByEmail(@RequestBody String jsonAuthUser) {
+        ObjectMapper mapper = new ObjectMapper(); // create once, reuse
+        try {
+            AuthUser aUser = mapper.readValue(jsonAuthUser, AuthUser.class);
+            User user = userService.getUserByEmail(aUser);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User doesn't exists");
+            }
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to parse body");
+        }
     }
 
     @PutMapping(value = "/update/{id}", headers = "Accept=application/json")
-    public ResponseEntity<String> updateUser(@RequestBody User currentUser, @PathVariable("id") String id) {
-        LOG.info("Updating User " + currentUser.getName());
-        Optional<User> user = userService.findById(id);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity updateUser(@RequestBody String jsonCurrentUser, @PathVariable("id") String id) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            User currentUser = mapper.readValue(jsonCurrentUser, User.class);
+            LOG.info("Updating User " + currentUser.getName());
+            Optional<User> user = userService.findById(id);
+            if (user == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            userService.update(currentUser, currentUser.getId());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to parse body");
         }
-        userService.update(currentUser, currentUser.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
 
@@ -82,13 +105,19 @@ public class UserController {
 
 
     @PatchMapping(value = "/{id}", headers = "Accept=application/json")
-    public ResponseEntity<User> updateUserPartially(@PathVariable("id") String id, @RequestBody User currentUser) {
-        LOG.info("Partially Updating User " + currentUser.getName());
-        Optional<User> user = userService.findById(id);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity updateUserPartially(@PathVariable("id") String id, @RequestBody String jsonCurrentUser) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            User currentUser = mapper.readValue(jsonCurrentUser, User.class);
+            LOG.info("Partially Updating User " + currentUser.getName());
+            Optional<User> user = userService.findById(id);
+            if (user == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            User usr = userService.updatePartially(currentUser, id);
+            return new ResponseEntity<>(usr, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to parse body");
         }
-        User usr = userService.updatePartially(currentUser, id);
-        return new ResponseEntity<>(usr, HttpStatus.OK);
     }
 }
