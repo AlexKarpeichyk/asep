@@ -1,13 +1,17 @@
 package com.asep.app;
 
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-//@SpringBootTest
-class AsepApplicationTests {
+@SpringBootTest
+@RunWith(SpringRunner.class)
+public class AsepApplicationTests {
 
-	//@Test
-	void contextLoads() {
-	}
+
+    @Test
+    void contextLoads() {
+    }
 
 }

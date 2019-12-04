@@ -2,6 +2,7 @@ package com.asep.app.controller;
 
 import com.asep.app.entity.AuthUser;
 import com.asep.app.entity.User;
+import com.asep.app.exceptions.UserNotFoundException;
 import com.asep.app.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -23,25 +24,25 @@ public class UserController {
     UserService userService;
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private ObjectMapper mapper = new ObjectMapper();
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getUserById(@PathVariable("id") String id) {
+    public ResponseEntity getUserById(@PathVariable("id") String id) throws UserNotFoundException {
         LOG.info("Fetching User with id " + id);
         Optional<User> user = userService.findById(id);
         if (user.equals(Optional.empty())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User doesn't exist.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserNotFoundException("USER DOES NOT EXIST"));
         }
         return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/create", headers = "Accept=application/json")
     public ResponseEntity createUser(@RequestBody String jsonUser) {
-        ObjectMapper mapper = new ObjectMapper();
         try {
             User user = mapper.readValue(jsonUser, User.class);
             LOG.info("Creating User " + user.getName());
             boolean created = userService.createUser(user);
-            if(created) {
+            if (created) {
                 return ResponseEntity.ok(user);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists.");
@@ -60,7 +61,6 @@ public class UserController {
 
     @PostMapping(value = "/getByEmail", headers = "Accept=application/json")
     public ResponseEntity getUserByEmail(@RequestBody String jsonAuthUser) {
-        ObjectMapper mapper = new ObjectMapper(); // create once, reuse
         try {
             AuthUser aUser = mapper.readValue(jsonAuthUser, AuthUser.class);
             User user = userService.getUserByEmail(aUser);
@@ -68,15 +68,13 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User doesn't exists");
             }
             return new ResponseEntity<>(user, HttpStatus.OK);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to parse body");
         }
     }
 
     @PutMapping(value = "/update/{id}", headers = "Accept=application/json")
     public ResponseEntity updateUser(@RequestBody String jsonCurrentUser, @PathVariable("id") String id) {
-        ObjectMapper mapper = new ObjectMapper();
         try {
             User currentUser = mapper.readValue(jsonCurrentUser, User.class);
             LOG.info("Updating User " + currentUser.getName());
@@ -94,7 +92,7 @@ public class UserController {
 
 
     @DeleteMapping(value = "/{id}", headers = "Accept=application/json")
-    public ResponseEntity<User> deleteUser(@PathVariable("id") String id) {
+    public ResponseEntity<User> deleteUserById(@PathVariable("id") String id) throws UserNotFoundException {
         Optional<User> user = userService.findById(id);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -103,10 +101,9 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-
     @PatchMapping(value = "/{id}", headers = "Accept=application/json")
+
     public ResponseEntity updateUserPartially(@PathVariable("id") String id, @RequestBody String jsonCurrentUser) {
-        ObjectMapper mapper = new ObjectMapper();
         try {
             User currentUser = mapper.readValue(jsonCurrentUser, User.class);
             LOG.info("Partially Updating User " + currentUser.getName());

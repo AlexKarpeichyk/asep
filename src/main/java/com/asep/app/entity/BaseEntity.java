@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Document
 public abstract class BaseEntity implements Serializable {
     @Id
-    private String id;
+    protected String id;
 
     public String getId() {
         return id;

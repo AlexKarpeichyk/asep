@@ -1,5 +1,6 @@
 package com.asep.app.entity;
 
+import lombok.Builder;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 @Document(collection = "user")
+@Builder
 public class User extends BaseEntity {
 
     private String country;
@@ -20,7 +22,8 @@ public class User extends BaseEntity {
 
     }
 
-    public User(String country, String city, List<Location> location, String name, Device device, String password, String email) {
+    public User(String id, String country, String city, List<Location> location, String name, Device device, String password) {
+        super.id = id;
         this.country = country;
         this.city = city;
         this.location = location;
@@ -75,5 +78,58 @@ public class User extends BaseEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public static class UserBuilder {
+        private String id;
+        private String country;
+        private String city;
+        private List<Location> location;
+        private String name;
+        private String password;
+        private Device device;
+
+        public UserBuilder() {
+        }
+
+        public UserBuilder setId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserBuilder setCountry(String country) {
+            this.country = country;
+            return this;
+        }
+
+        public UserBuilder setCity(String city) {
+            this.city = city;
+            return this;
+        }
+
+        public UserBuilder setLocation(List<Location> loc) {
+            this.location = loc;
+            return this;
+        }
+
+        public UserBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public UserBuilder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder setDevice(Device device) {
+            this.device = device;
+            return this;
+        }
+
+        public User build() {
+            return new User(id, country, city, location, name, device, password);
+        }
     }
 }
