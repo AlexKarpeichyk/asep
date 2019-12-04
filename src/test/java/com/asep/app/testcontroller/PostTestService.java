@@ -175,39 +175,4 @@ public class PostTestService {
         Mockito.when(postcodeRepository.findAll()).thenReturn(Stream.of(postcode).collect(Collectors.toList()));
         Assert.assertEquals(propertyList.get(0).getAddress(), postcodeService.getPropertiesWithinRadius(request).get(0).getAddress());
     }
-
-//    @Test
-//    @DisplayName("Test Case for No Properties Within Radius")
-//    public void propertiesWithinRadiusTestCaseNegativeTestCase() throws NoPropertiesFoundException {
-//        List<Property> propertyList = new ArrayList<>();
-//        thrown.expect(NoPropertiesFoundException.class);
-//        thrown.expectMessage(CoreMatchers.is("NO PROPERTIES FOUND WITHIN GIVEN RADIUS"));
-//        Property property = new Property.PropertyBuilder()
-//                .setId(TestConstant.DEFAULT_PROPERTY_ID)
-//                .setDate("2016-07-26")
-//                .setDuration(TestConstant.FREEHOLD)
-//                .setNewProperty(true)
-//                .setPrice(200000)
-//                .setHouseType("Flat")
-//                .setAddress(TestConstant.DEFAULT_ADDRESS)
-//                .build();
-//        String address = property.getAddress();
-//        double[] value = javaGeocode.addressConversion(address);
-//        property.setLatitude(value[0]);
-//        property.setLongitude(value[1]);
-//        propertyList.add(property);
-//        Postcode postcode = new Postcode.PostcodeBuilder()
-//                .setPostcodeId(new ObjectId().toString())
-//                .setPostcode(TestConstant.DEFAULT_POSTCODE)
-//                .setProperties(propertyList)
-//                .build();
-//        RadiusRequest request = new RadiusRequest.RadiusRequestBuilder()
-//                .setRadius(1.0)
-//                .setLongitude(Double.parseDouble(TestConstant.DEFAULT_LATITUDE))
-//                .setLatitude(Double.parseDouble(TestConstant.DEFAULT_LONGITUDE))
-//                .build();
-//
-//        Mockito.when(postcodeRepository.findAll()).thenReturn(Stream.of(postcode).collect(Collectors.toList()));
-//        Assert.assertEquals(new ArrayList<>(), postcodeService.getPropertiesWithinRadius(request));
-//    }
 }

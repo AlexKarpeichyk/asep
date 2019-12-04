@@ -33,15 +33,15 @@ public class PostcodeController implements Constant {
         return new ResponseEntity<>(codes, HttpStatus.OK);
     }
 
-//    @GetMapping(value = "/property/get", headers = "Accept=application/json")
-//    public int getAllPostcodes() {
-//        return postcodeService.getPostcodes();
-//    }
+    @GetMapping(value = "/property/get", headers = "Accept=application/json")
+    public int getAllPostcodes() {
+        return postcodeService.getPostcodes();
+    }
 
-//    @GetMapping(value = "/property/{postcode}", headers = "Accept=application/json")
-//    public Postcode getByPostcode(@PathVariable("postcode") String postcode) throws PostcodeNotFoundException {
-//        return postcodeService.getPostcode(postcode);
-//    }
+    @GetMapping(value = "/property/{postcode}", headers = "Accept=application/json")
+    public Postcode getByPostcode(@PathVariable("postcode") String postcode) throws PostcodeNotFoundException {
+        return postcodeService.getPostcode(postcode);
+    }
 
     @GetMapping(value = "/property/test/{amount}", headers = "Accept=application/json")
     public ResponseEntity testDataFetch(@PathVariable("amount") int amount) {

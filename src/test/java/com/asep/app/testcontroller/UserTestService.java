@@ -72,8 +72,6 @@ public class UserTestService extends AsepApplicationTests {
     @BeforeClass
     @DisplayName("User Setup Operation")
     public static void setup() {
-        //  mockUserDaoSingleton = Mockito.mock(MockUserDaoSingleton.class);
-        //  mockUserDaoSingleton = MockUserDaoSingleton.getInstance();
     }
 
     @Test
