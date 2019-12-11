@@ -34,11 +34,6 @@ public class PostcodeServiceImpl implements PostcodeService, Constant {
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-
-    public int getPostcodes() {
-        return ((List<Postcode>) postcodeRepository.findAll()).size();
-    }
-
     public Postcode getPostcode(String postcode) throws PostcodeNotFoundException {
         Postcode code = null;
         try {
@@ -113,30 +108,27 @@ public class PostcodeServiceImpl implements PostcodeService, Constant {
 
     public List<Property> getPropertiesWithinRadius(RadiusRequest request) {
         List<Property> properties = new ArrayList<>();
-        try {
-            double[] coordinates = new double[]{request.getLatitude(), request.getLongitude()};
-            double[] c = new double[2];
-            postcodeRepository.findAll().forEach(postcode -> {
-                //double[] postcodeLocation = latLongGetter.addressConversion(postcode.getPostcode());
-                //if (calculator.getDistance(coordinates, postcodeLocation) > request.getRadius()) {
-                    postcode.getProperties().forEach(prop -> {
-                        c[0] = prop.getLatitude();
-                        c[1] = prop.getLongitude();
-                        double distance = calculator.getDistance(coordinates, c);
-                        System.out.println("#########################################################################"+distance);
-                        if (distance < request.getRadius()) {
-                            properties.add(prop);
-                        }
-                    });
-                //}
+        double[] coordinates = new double[]{request.getLatitude(), request.getLongitude()};
+        double[] c = new double[2];
+        postcodeRepository.findAll().forEach(postcode -> {
+            postcode.getProperties().forEach(prop -> {
+                c[0] = prop.getLatitude();
+                c[1] = prop.getLongitude();
+                double distance = calculator.getDistance(coordinates, c);
+                if (distance < request.getRadius()) {
+                    properties.add(prop);
+                }
             });
+        });
+        try {
             if (properties.isEmpty()) {
                 throw new NoPropertiesFoundException(ERROR_NO_PROPERTIES);
             }
-            LOG.info("Properties found:" + properties.size());
-        } catch (NoPropertiesFoundException e) {
-            LOG.error(e.getMessage());
+        } catch(NoPropertiesFoundException e) {
+            e.printStackTrace();
         }
+        LOG.info("Properties found:" + properties.size());
+
         return properties;
     }
 }

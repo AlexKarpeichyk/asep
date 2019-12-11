@@ -15,9 +15,5 @@ public interface PostcodeService {
 
     List<Property> getPropertiesWithinRadius(RadiusRequest request);
 
-    //List<Postcode> getPostcodes();
-
-    int getPostcodes();
-
     Postcode getPostcode(String postcode) throws PostcodeNotFoundException;
 }
